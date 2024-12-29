@@ -1,22 +1,4 @@
-# Function gclone
-# This function clones a Git repository into a specified new directory and then changes to that directory.
-function gclone {
-  # Check if exactly two arguments are provided
-  if [ "$#" -ne 2 ]; then
-    echo "Usage: gclone <repository> <project-name>"
-    return 1
-  fi
-
-  # Assign the arguments to variables for readability
-  repo=$1
-  project_name=$2
-
-  # Clone the repository into the project name directory
-  git clone $repo $project_name || return 1
-
-  # Change to the project directory
-  cd $project_name || return 1
-}
+# ----------------------------------------------------------------------------------------------------------------------
 
 # Function into_docker
 # This function connects interactively to a specific Docker container using the 'lion' user.
@@ -39,6 +21,16 @@ function new_commit {
   # Create a new Git commit with the specified type and message
   git commit -m "$type: $message"
 }
+
+# Usage: reset <n>
+# Moves the HEAD pointer back by <n> commits without modifying the working directory or the index.
+# This allows you to undo the last <n> commits while keeping changes staged for further editing or re-committing.
+# Example: `reset 2` will move HEAD two commits back.
+function reset {
+  git reset --soft "HEAD~$1"
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 # Alias for building and starting Docker containers in the background
 alias build-d="docker compose up -d --build"
@@ -218,3 +210,62 @@ alias cherry="git cherry-pick $1"
 alias switch="git switch -c $1"
 # Usage: switch <branch-name>
 # Creates a new branch with the specified name and switches to it.
+
+alias fetch-o="git fetch origin"
+# Usage: fetch-o
+# Fetches changes from the remote repository (origin) without merging or rebasing them.
+
+alias fetch-b="git fetch --prune origin '+refs/tags/*:refs/tags/*'"
+# Usage: fetch-b
+# Fetches and prunes remote tags from the origin repository.
+# Ensures that local tags mirror the tags in the remote repository by removing tags that no longer exist remotely.
+
+alias log-r="git reflog"
+# Usage: log-r
+# Displays the Git reference log, showing a history of changes made to HEAD and branch references.
+# Useful for recovering lost commits or understanding recent changes.
+
+alias commit-s="git commit -S -m \"$1\""
+# Usage: commit-s "<message>"
+# Creates a signed commit with the specified message.
+# The -S flag is used to sign the commit with your GPG key.
+
+alias feat-s="commit-s feat: $1"
+# Usage: feat-s <message>
+# Creates a signed commit with the type 'feat' and the specified message.
+
+alias fix-s="commit-s fix: $1"
+# Usage: fix-s <message>
+# Creates a signed commit with the type 'fix' and the specified message.
+
+alias build-s="commit-s build: $1"
+# Usage: build-s <message>
+# Creates a signed commit with the type 'build' and the specified message.
+
+alias ci-s="commit-s ci: $1"
+# Usage: ci-s <message>
+# Creates a signed commit with the type 'ci' and the specified message.
+
+alias chore-s="commit-s chore: $1"
+# Usage: chore-s <message>
+# Creates a signed commit with the type 'chore' and the specified message.
+
+alias style-s="commit-s style: $1"
+# Usage: style-s <message>
+# Creates a signed commit with the type 'style' and the specified message.
+
+alias docs-s="commit-s docs: $1"
+# Usage: docs-s <message>
+# Creates a signed commit with the type 'docs' and the specified message.
+
+alias perf-s="commit-s perf: $1"
+# Usage: perf-s <message>
+# Creates a signed commit with the type 'perf' and the specified message.
+
+alias refactor-s="commit-s refactor: $1"
+# Usage: refactor-s <message>
+# Creates a signed commit with the type 'refactor' and the specified message.
+
+alias tests-s="commit-s test: $1"
+# Usage: tests-s <message>
+# Creates a signed commit with the type 'test' and the specified message.
