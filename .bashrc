@@ -30,6 +30,12 @@ function reset {
   git reset --soft "HEAD~$1"
 }
 
+function fetch {
+  branch=$1
+
+  git checkout "$branch" && git fetch origin && git pull origin "$branch"
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Alias for building and starting Docker containers in the background
