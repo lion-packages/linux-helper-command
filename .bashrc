@@ -89,11 +89,6 @@ alias amend="git commit --amend"
 # Usage: amend
 # Amends the last Git commit, allowing you to modify the commit message and include additional changes.
 
-# Alias for fetching and pulling the latest changes from the main branch
-alias fetch="git checkout main && git fetch origin && git pull origin main"
-# Usage: fetch
-# Checks out the main branch, fetches updates from the remote repository, and pulls the latest changes.
-
 # Alias for listing Git branches
 alias branch="git branch"
 # Usage: branch
